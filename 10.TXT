@@ -1,0 +1,3 @@
+# Program to show the use of int() function
+num= int(input("Enter the number"))
+print=("The number is:", num)

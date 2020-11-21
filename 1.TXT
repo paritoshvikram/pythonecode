@@ -1,0 +1,5 @@
+#Program to print output in a program
+salary=4000
+print("Total salary is salary")
+print("Total salary is:", salary)
+ 

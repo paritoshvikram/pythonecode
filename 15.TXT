@@ -1,0 +1,6 @@
+#Program to compare profit of the two organization.
+p1,p2= eval(input("Inupt the profit of two organization")
+if (p1>p2):
+print("The first organization is performing better")
+else:
+print("The second organization is performing better")

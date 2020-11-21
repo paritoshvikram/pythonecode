@@ -1,0 +1,4 @@
+#Program to print multiple outputs in a single program
+print("welcome")
+print("to")
+print("kolkata")

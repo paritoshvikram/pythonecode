@@ -1,0 +1,12 @@
+#Program to compute expensive product among three product.
+p1,p2,p3= eval(input("Inupt the price of three product")
+if (p1>p2):
+   if(p1>p3):
+       print("The first product is expensive")
+   else:
+       print("The third product is expensive")
+else:
+    if(p2>p3):
+       print("The second product is expensive")
+   else:
+       print("The third product is expensive")

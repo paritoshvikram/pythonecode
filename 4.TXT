@@ -1,0 +1,5 @@
+#Program to use print() function with and without of "end" argument
+print('Hi')
+print('your name' , end= '')
+print('welcome')
+print('nice to see you')

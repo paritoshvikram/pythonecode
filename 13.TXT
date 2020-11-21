@@ -1,0 +1,14 @@
+# Program to show the use of logical operator
+num1=100
+num2=150
+num3=125
+
+#Use of "and" logical operator
+print("the use of and operator:", num1>num3 or num2>num3)
+
+#Use of "or" logical operator
+print("the use of and operator:", num1>num3 or num2>num3)
+
+
+#Use of "not" logical operator
+print("the use of and operator:", not num1<num3)

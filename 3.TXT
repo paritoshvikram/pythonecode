@@ -1,0 +1,4 @@
+#Program to show use of end argument
+print("welcome" , end= '')
+print("to" , end= '')
+print("kolkata", end= '')
