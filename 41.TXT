@@ -1,0 +1,6 @@
+#getCellList
+def getCellList(act_dict, df, config):
+    dic = ast.literal_eval(act_dict)
+    cellList = list(df[dic.get("colName")].unique())
+    cellList = list(filter(lambda x: not pd.isna(x), cellList))
+    return cellList

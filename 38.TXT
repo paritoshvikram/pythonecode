@@ -1,0 +1,12 @@
+#removeColAndDropDuplicates
+def removeColAndDropDuplicates(act_dict, df, config):
+    """
+    Global--removeColAndDropDuplicates
+    """
+    print("removeColAndDropDuplicates STARTED %s" % len(df))
+    dic = ast.literal_eval(act_dict)
+    colToDrop = dic.get("colToDrop")
+    retainedList = list(set(df.columns).difference(colToDrop))
+    df = df[retainedList].drop_duplicates().reset_index(drop=True)
+    print("removeColAndDropDuplicates ENDED %s" % len(df))
+    return df

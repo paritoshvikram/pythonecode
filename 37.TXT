@@ -1,0 +1,11 @@
+#appendDataframe
+def appendDataframe(items, df, config):
+    """
+    Global--appendDataFrame
+    """
+    # dfs = [k for k in config.keys()]
+    for data_frame_to_append in config:
+        # print(a[i])
+        df = df.append(config[data_frame_to_append])
+
+    return df

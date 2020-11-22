@@ -1,0 +1,4 @@
+# seed() function-returns random number each time.
+from random import random, randrange,seed
+seed()
+seed(1000)

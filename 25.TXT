@@ -1,0 +1,3 @@
+# sqrt() function-returns the square root of a numbers
+import math
+math.sqrt(12)

@@ -1,0 +1,30 @@
+#mergeColumnsOnPriority
+def mergeOnPriority(act_dict, df, config):
+    """
+    Global--mergeOnPriority
+    Generalize the column name based on priority
+    :return: dataframe
+    """
+    try:
+        diction = ast.literal_eval(act_dict)
+        colList = diction['priorityWiseCol']
+        flattened = [val for sublist in colList for val in sublist]
+        all_cols = list(df.columns)
+        to_be_added = list(set(flattened).difference(all_cols))
+        for i in to_be_added:
+            df[i] = np.nan
+        for i in range(len(colList) - 2, -1, -1):
+            zipped_dict = dict(zip(colList[i], colList[i + 1]))
+            for k, v in zipped_dict.items():
+                df[k] = np.where(df[k].isnull(), df[v], df[k])
+        for i in colList[1:]:
+            df = df.drop(columns=i)
+        finalColumns = diction['FinalColumns']
+        renamed_dict = dict(zip(colList[0], finalColumns))
+        df = df.rename(columns=renamed_dict)
+        logger.info("The columns after folding are {}".format(df.columns))
+        return df
+    except Exception as exp:
+        logger.error("Error occured in mergeOnPriority, df length : {0} - {1}".format(len(df), str(exp)))
+        traceback.print_exc()
+        return df

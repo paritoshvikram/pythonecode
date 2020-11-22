@@ -1,0 +1,14 @@
+#finduniquedata
+def FindUniqueData(act_dict, df, config):
+    """
+    Global--findUniqueData
+    Drops duplicate columns in a dataframe
+    :return: dataframe
+    """
+    try:
+        print(df)
+        # import pdb;pdb.set_trace()
+        return df
+    except Exception as exp:
+        logger.error("Error occured in FindUniqueData, len df : {0} - {1}".format(len(df), str(exp)))
+        traceback.print_exc()

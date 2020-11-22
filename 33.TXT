@@ -1,0 +1,21 @@
+#picking_required_cols_removing_duplicates
+def picking_required_cols_removing_duplicates(act_dict, df, config):
+    """
+    Global--pickingRequiredColsRemovingDuplicates
+    reducing dataframe by picking required columns
+    :return: dataframe
+    """
+    try:
+        dic = ast.literal_eval(act_dict)
+        col_to_include = dic['colsToInclude']
+        df1 = config['removeuseless']
+        dataframe_cols = df1.columns.to_list()
+        col_to_include = list_intersection(dataframe_cols, col_to_include)
+        df1 = df1[col_to_include]
+        df1.drop_duplicates(inplace=True)
+        logger_mod.log_pickle('outputholder', df1)
+        return df1
+    except Exception as exp:
+        logger.error(
+            "Error occured in picking_required_cols_removing_duplicates, len df : {0} - {1}".format(len(df), str(exp)))
+        traceback.print_exc()

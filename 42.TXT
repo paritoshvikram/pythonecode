@@ -1,0 +1,42 @@
+#generateDynamicMail
+def generateDynamicMail(items, df, config):
+    """
+    Global--generateDynamicMail
+    """
+    items = ast.literal_eval(items)
+    attachmentFileNames = []
+    attachmentFilePath = ""
+    directory = ""
+    fileStartsWith = ""
+    fileEndsWith = ""
+    finalDict = {}
+    for key in config:
+        if key == "TO":
+            TO = ";".join(config['TO'])
+            finalDict['TO'] = TO
+        elif key == "CC":
+            CC = ";".join(config['CC'])
+            finalDict['CC'] = CC
+        elif key == "Subject":
+            Subject = config['Subject']
+            finalDict['Subject'] = Subject
+        elif key == "Body":
+            Body = config['Body']
+            finalDict['Body'] = Body
+
+    for item in items:
+        if item == 'directory':
+            directory = items['directory']
+        elif item == 'fileStartsWith':
+            fileStartsWith = items['fileStartsWith']
+        elif item == 'fileEndsWith':
+            fileEndsWith = items['fileEndsWith']
+
+    for filename in os.listdir(directory):
+        if filename.endswith(fileEndsWith) and filename.startswith(fileStartsWith):
+            attachmentFileNames.append(filename)
+    if len(attachmentFileNames) > 0:
+        attachmentFilePath = directory
+        finalDict['Filename'] = attachmentFileNames
+        finalDict['Filepath'] = attachmentFilePath
+    return finalDict

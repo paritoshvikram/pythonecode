@@ -1,0 +1,4 @@
+# random() function-returns floating point number x in the range 0<=x<1
+from random import random, randrange,seed
+random()
+

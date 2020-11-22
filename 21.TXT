@@ -1,0 +1,3 @@
+# floor() function returns the lowest integer of the numbers
+import math
+math.floor(28.6)

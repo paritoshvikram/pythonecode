@@ -1,0 +1,70 @@
+#getAddressFromGoogleApi
+def httpGetHeaderAddressToLatLong(items, df, config):
+    """
+    Global--httpGetHeaderAddressToLatLong
+    Gets the lat and long values for a given address
+    returns: list
+    """
+    paramList = []
+    url = config["URL"]
+    RequestHeaders = config["RequestHeaders"]
+    try:
+        poc = ast.literal_eval(items)
+        cop = list(poc['params'].keys())
+        df2 = df.loc[~(df.lat.notnull()) | ~(df.long.notnull()) | (df['lat'] == 0) | (df['long'] == 0)]
+        df3 = df2.loc[(df2.address.notnull())]
+        df3 = df3[['lat', 'long', 'address']].reset_index()
+        ################ START BLOOM FILTER IMPLEMENTATION 1st PART ################
+        try:
+            infile = open("BloomFilters/address_bloom_filter.pkl", 'rb')
+            bloom = pickle.load(infile)
+
+            # address_lookup_df = pd.read_csv("BloomFilters\\address_lookup.csv")
+            # ADDED PARQUET FILE
+            table1 = pq.read_table('BloomFilters/address_lookup.parquet')
+            address_lookup_df = table1.to_pandas()
+            # END PARQUET ADDITION
+
+            address_dict = dict(zip(address_lookup_df.address, address_lookup_df.index))
+        except Exception as e:
+            logger.info(e, "Filter Pickle Not Found, going to create one")
+            bloom = BloomFilter(max_elements=5000000, error_rate=0.0000001)
+            outfile = open("BloomFilters/address_bloom_filter.pkl", 'wb')
+            pickle.dump(bloom, outfile)
+            outfile.close()
+            address_lookup_df = pd.DataFrame(columns=["date", "lat", "long", "address"])
+
+            # address_lookup_df.to_csv("BloomFilters\\address_lookup.csv", index=False)
+            # ADDED PARQUET FILE
+            table = pa.Table.from_pandas(address_lookup_df)
+            pq.write_table(table, 'BloomFilters/address_lookup.parquet')
+            # END PARQUET ADDITION
+
+            address_dict = dict(zip(address_lookup_df.address, address_lookup_df.index))
+
+        # import pdb; pdb.set_trace()
+        count = 0
+        # bloom = {}
+        for index, row in df3.iterrows():
+            if row['address'] in bloom:
+                # print("Found")
+                df['lat'][row['index']] = address_lookup_df['lat'][address_dict.get(row['address'])]
+                df['long'][row['index']] = address_lookup_df['long'][address_dict.get(row['address'])]
+            else:
+                # print("Not Found")
+                temp_dict = {}
+                temp_dict["params"] = {
+                    cop[0]: row[poc['params'][cop[0]]],
+                    cop[1]: poc['params'][cop[1]]
+                }
+                temp_dict["url"] = url
+                temp_dict["headers"] = RequestHeaders
+                temp_dict["UniqueID"] = row['index']
+                paramList.append(temp_dict)
+                count += 1
+        logger.info("No of misses in bloom {}".format(count))
+        return paramList
+    except Exception as exp:
+        logger.error("{0} Error occured in httpGetHeaderAddressToLatLong , df length : {1}".format(str(exp), len(df)))
+        traceback.print_exc()
+        return paramList

@@ -1,0 +1,11 @@
+#getUniqueList
+def getUniqueList(act_dict, df, config):
+    """
+    Global--getUniqueList
+    """
+    dic = ast.literal_eval(act_dict)
+    colList = dic.get("colList")
+    concatList = []
+    concatList = [concatList + list(set(df[col])) for col in colList]
+    concatList = list(set([val for sublist in concatList for val in sublist]))
+    return concatList

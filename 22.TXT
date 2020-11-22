@@ -1,0 +1,3 @@
+# ceiling() function returns the highest integer of the numbers
+import math
+math.ceiling(28.6)

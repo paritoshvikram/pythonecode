@@ -1,0 +1,3 @@
+# factorial() function 
+import math
+math.factorial(4)

@@ -1,0 +1,4 @@
+# randrange() function-returns random integer value within a specified range
+from random import random, randrange,seed
+randrange(600,700,10)
+

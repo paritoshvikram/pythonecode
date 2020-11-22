@@ -1,0 +1,3 @@
+# pow() function-raise one number to a power of another
+import math
+math.pow(8,4)

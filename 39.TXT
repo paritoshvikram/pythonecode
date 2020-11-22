@@ -1,0 +1,49 @@
+#interColumnOperation
+def interColumnOperation(acti_dict, df, operator, colToApply):
+    """
+    Global--interColumnOperation
+    """
+    dict = ast.literal_eval(acti_dict)
+
+    if dict.get('Type') is None:
+        inputColumn_1 = dict['InputColumn_1']
+        inputColumn_2 = dict['InputColumn_2']
+        print(type(df[inputColumn_1]))
+        col1 = df[inputColumn_1]
+        col2 = df[inputColumn_2]
+    elif dict.get('Type') == 'date':
+
+        inputColumn_1 = dict['InputColumn_1'][0]
+        inputColumn_2 = dict['InputColumn_2'][0]
+
+        formatCol1 = dict['InputColumn_1'][1]
+        formatCol2 = dict['InputColumn_2'][1]
+        # col1 = pd.to_datetime(df[inputColumn_1])
+        col1 = df[inputColumn_1].apply(lambda x: datetime.strptime(x, formatCol1))
+        # col2 = pd.to_datetime(df[inputColumn_2])
+        col2 = df[inputColumn_2].apply(lambda x: datetime.strptime(x, formatCol2))
+    else:
+        inputColumn_1 = dict['InputColumn_1']
+        inputColumn_2 = dict['InputColumn_2']
+        col1 = df[inputColumn_1]
+        col2 = df[inputColumn_2]
+
+    # import pdb; pdb.set_trace()
+    print("We are in interColumnOperation")
+    if operator == "EQUAL":
+        df[colToApply] = np.where(col1 == col2, 1, 0)
+    elif operator == "GTE":
+        df[colToApply] = np.where(col1 >= col2, 1, 0)
+    elif operator == "LTE":
+        df[colToApply] = np.where(col1 <= col2, 1, 0)
+    elif operator == "LT":
+        df[colToApply] = np.where(col1 < col2, 1, 0)
+    elif operator == "GT":
+        df[colToApply] = np.where(col1 > col2, 1, 0)
+    elif operator == "AND":
+        df[colToApply] = np.where(col1 & col2, 1, 0)
+    elif operator == "OR":
+        df[colToApply] = np.where(col1 | col2, 1, 0)
+    elif operator == "MaxOf":
+        df[colToApply] = df[[inputColumn_1, inputColumn_2]].max(axis=1)
+    return df

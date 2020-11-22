@@ -1,0 +1,7 @@
+#finduniqueRows
+def uniqueRows(act_dict, df, config):
+    dict = ast.literal_eval(act_dict)
+    a = dict['colList']
+    # a = ['cell_id', 'EVENT DATE']
+    df1 = df.groupby(a).size().reset_index()[a]
+    return df1

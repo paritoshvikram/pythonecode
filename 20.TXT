@@ -1,0 +1,7 @@
+# The python code goes here
+import numpy as np
+def removeNan(data_dict,data_frame,config_element):
+    data_frame = data_frame["Project Details"]
+    config_col = ['Host 4G', 'Host 3G', 'Port', 'Apikey 4G', 'Apikey 3G', 'Cluster Name 4G', 'Cluster Name 3G', 'Cluster Sites 4G', 'Cluster Sites 3G', 'ProjectName 4G', 'ProjectName 3G','Site 4G', 'Site 3G', 'Carrier 4G','Carrier 3G', 'Polygon 4G', 'Polygon 3G', 'SiteType', 'Transparency']
+    data_frame[config_col] = data_frame[config_col].replace(np.nan, '', regex=True)
+    return data_frame

@@ -1,0 +1,14 @@
+#add New Empty Column
+#This method is used to forcefully assign any column a null or NaN value. 
+import numpy as np 
+import pandas as pd
+Mydataframe = pd.DataFrame({'FirstName': ['Vipul', 
+                                          'Ashish', 
+                                          'Milan'], 
+                            "Age": [21,22,23]}) 
+print("\n\n---Original Dataframe---\n",  
+      Mydataframe) 
+Mydataframe['Gender'] = '' 
+Mydataframe['Department'] = np.nan
+print("---Updated Dataframe---\n",  
+      Mydataframe)
